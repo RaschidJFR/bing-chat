@@ -8,23 +8,20 @@ import { fetch } from './fetch'
 const terminalChar = ''
 
 export class BingChat {
-  protected _cookie: string
   protected _debug: boolean
 
-  constructor(opts: {
-    cookie: string
+  constructor(
+    opts: {
+      /** @deprecated Cookie not needed anymore */
+      cookie?: string
 
-    /** @defaultValue `false` **/
-    debug?: boolean
-  }) {
-    const { cookie, debug = false } = opts
+      /** @defaultValue `false` **/
+      debug?: boolean
+    } = {}
+  ) {
+    const { debug = false } = opts
 
-    this._cookie = cookie
     this._debug = !!debug
-
-    if (!this._cookie) {
-      throw new Error('Bing cookie is required')
-    }
   }
 
   /**
@@ -275,10 +272,6 @@ export class BingChat {
   async createConversation(): Promise<types.ConversationResult> {
     const requestId = crypto.randomUUID()
 
-    const cookie = this._cookie.includes(';')
-      ? this._cookie
-      : `_U=${this._cookie}`
-
     return fetch('https://www.bing.com/turing/conversation/create', {
       headers: {
         accept: 'application/json',
@@ -301,8 +294,7 @@ export class BingChat {
         'x-edge-shopping-flag': '1',
         'x-ms-client-request-id': requestId,
         'x-ms-useragent':
-          'azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/MacIntel',
-        cookie
+          'azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/MacIntel'
       },
       referrer: 'https://www.bing.com/search',
       referrerPolicy: 'origin-when-cross-origin',
