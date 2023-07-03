@@ -310,7 +310,7 @@ export class BingChat {
       method: 'GET',
       mode: 'cors',
       credentials: 'include'
-    } as types.ConversationRequest).then((res) => {
+    }).then((res) => {
       if (res.ok) {
         return res.json() as Promise<types.ConversationResult>
       } else {

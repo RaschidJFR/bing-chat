@@ -1,24 +1,15 @@
-import fetch, { // Blob,
-  // blobFrom,
-  // blobFromSync,
-  // File,
-  // fileFrom,
-  // fileFromSync,
-  // FormData,
-  Headers,
-  Request,
-  Response
-} from 'node-fetch'
+/// <reference lib="dom" />
+import nodeFetch from 'node-fetch'
+import semver from 'semver'
 
-if (!globalThis.fetch) {
-  globalThis.fetch = fetch
-  globalThis.Headers = Headers
-  globalThis.Request = Request
-  globalThis.Response = Response
-}
+let fetch = globalThis.fetch
 
 if (typeof fetch !== 'function') {
-  throw new Error('Invalid environment: global fetch not defined')
+  if (semver.lt(process.version, '18.0.0')) {
+    fetch = nodeFetch as any
+  } else {
+    throw new Error('Invalid environment: global fetch not defined')
+  }
 }
 
 export { fetch }
