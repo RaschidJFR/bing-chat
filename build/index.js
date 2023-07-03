@@ -205,7 +205,8 @@ var BingChat = class {
   }
   async createConversation() {
     const requestId = crypto.randomUUID();
-    return Axios.get("https://www.bing.com/turing/conversation/create", {
+    const url = "https://www.bing.com/turing/conversation/create";
+    const params = {
       headers: {
         accept: "application/json",
         "accept-language": "en-US,en;q=0.9",
@@ -226,10 +227,20 @@ var BingChat = class {
         "x-ms-client-request-id": requestId,
         "x-ms-useragent": "azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/MacIntel"
       }
-    }).then(({ data }) => {
+    };
+    if (this._debug) {
+      console.log(url, JSON.stringify(params, null, 2));
+    }
+    return Axios.get(url, params).then((response) => {
+      if (this._debug) {
+        console.log("RESPONSE", JSON.stringify(response, null, 2));
+      }
+      if (!data) {
+        throw new Error(response)
+      }
       return data;
     }).catch((error) => {
-      const message = error.response ? `unexpected HTTP error createConversation ${error.response.status}: ${error.res.statusText}` : "Request failed with unknown";
+      const message = error.response ? `unexpected HTTP error createConversation ${error.response.status}: ${error.res.statusText}` : "Request failed with unknown error";
       throw new Error(message);
     });
   }
