@@ -1,6 +1,6 @@
 {
   "name": "bing-chat",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Node.js client for the unofficial Bing Chat API.",
   "author": "Travis Fischer <travis@transitivebullsh.it>",
   "contributors":["Raschid JF Rafaelly"],
@@ -20,7 +20,7 @@
     "build"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   },
   "scripts": {
     "build": "tsup",
@@ -36,10 +36,12 @@
     "test:prettier": "prettier '**/*.{js,jsx,ts,tsx}' --check"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "ws": "^8.13.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/axios": "^0.14.0",
     "@types/node": "^18.15.3",
     "@types/uuid": "^9.0.1",
     "@types/ws": "^8.5.4",

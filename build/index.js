@@ -1,14 +1,7 @@
 // src/bing-chat.ts
 import crypto from "node:crypto";
+import Axios from "axios";
 import WebSocket from "ws";
-
-// src/fetch.ts
-var fetch = globalThis.fetch;
-if (typeof fetch !== "function") {
-  throw new Error("Invalid environment: global fetch not defined");
-}
-
-// src/bing-chat.ts
 var terminalChar = "";
 var BingChat = class {
   constructor(opts = {}) {
@@ -212,7 +205,7 @@ var BingChat = class {
   }
   async createConversation() {
     const requestId = crypto.randomUUID();
-    return fetch("https://www.bing.com/turing/conversation/create", {
+    return Axios.get("https://www.bing.com/turing/conversation/create", {
       headers: {
         accept: "application/json",
         "accept-language": "en-US,en;q=0.9",
@@ -232,21 +225,12 @@ var BingChat = class {
         "x-edge-shopping-flag": "1",
         "x-ms-client-request-id": requestId,
         "x-ms-useragent": "azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.10.0 OS/MacIntel"
-      },
-      referrer: "https://www.bing.com/search",
-      referrerPolicy: "origin-when-cross-origin",
-      body: null,
-      method: "GET",
-      mode: "cors",
-      credentials: "include"
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(
-          `unexpected HTTP error createConversation ${res.status}: ${res.statusText}`
-        );
       }
+    }).then(({ data }) => {
+      return data;
+    }).catch((error) => {
+      const message = error.response ? `unexpected HTTP error createConversation ${error.response.status}: ${error.res.statusText}` : "Request failed with unknown";
+      throw new Error(message);
     });
   }
 };
