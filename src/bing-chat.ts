@@ -310,9 +310,9 @@ export class BingChat {
       method: 'GET',
       mode: 'cors',
       credentials: 'include'
-    }).then((res) => {
+    } as types.ConversationRequest).then((res) => {
       if (res.ok) {
-        return res.json()
+        return res.json() as Promise<types.ConversationResult>
       } else {
         throw new Error(
           `unexpected HTTP error createConversation ${res.status}: ${res.statusText}`

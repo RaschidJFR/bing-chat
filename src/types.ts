@@ -1,3 +1,5 @@
+import type { RequestInit } from 'node-fetch'
+
 export type Author = 'user' | 'bot'
 
 export type SendMessageOptions = {
@@ -33,6 +35,11 @@ export interface ChatMessage {
   variant?: string
 
   detail?: ChatMessageFull | ChatMessagePartial
+}
+
+export interface ConversationRequest extends RequestInit {
+  mode: string
+  credentials: string
 }
 
 export interface ConversationResult {

@@ -1,6 +1,21 @@
-/// <reference lib="dom" />
+import fetch, { // Blob,
+  // blobFrom,
+  // blobFromSync,
+  // File,
+  // fileFrom,
+  // fileFromSync,
+  // FormData,
+  Headers,
+  Request,
+  Response
+} from 'node-fetch'
 
-const fetch = globalThis.fetch
+if (!globalThis.fetch) {
+  globalThis.fetch = fetch
+  globalThis.Headers = Headers
+  globalThis.Request = Request
+  globalThis.Response = Response
+}
 
 if (typeof fetch !== 'function') {
   throw new Error('Invalid environment: global fetch not defined')

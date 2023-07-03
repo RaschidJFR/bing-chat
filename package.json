@@ -35,11 +35,13 @@
     "test:prettier": "prettier '**/*.{js,jsx,ts,tsx}' --check"
   },
   "dependencies": {
+    "node-fetch": "^3.3.1",
     "ws": "^8.13.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^18.15.3",
+    "@types/node-fetch": "^2.6.4",
     "@types/uuid": "^9.0.1",
     "@types/ws": "^8.5.4",
     "del-cli": "^5.0.0",
