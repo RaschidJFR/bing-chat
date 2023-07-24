@@ -2,6 +2,17 @@
 import crypto from "node:crypto";
 import Axios from "axios";
 import WebSocket from "ws";
+
+// src/api-error.ts
+var APIError = class extends Error {
+  constructor(message, response) {
+    super(message);
+    this.name = "APIError";
+    this.response = response;
+  }
+};
+
+// src/bing-chat.ts
 var terminalChar = "";
 var BingChat = class {
   constructor(opts = {}) {
@@ -232,16 +243,16 @@ var BingChat = class {
       console.log(url, JSON.stringify(params, null, 2));
     }
     return Axios.get(url, params).then((response) => {
+      const data = response.data;
       if (this._debug) {
-        console.log("RESPONSE", JSON.stringify(response, null, 2));
+        console.log("RESPONSE", JSON.stringify(data, null, 2));
       }
       if (!data) {
-        throw new Error(response)
+        throw new APIError("Empty response data", response);
       }
       return data;
     }).catch((error) => {
-      const message = error.response ? `unexpected HTTP error createConversation ${error.response.status}: ${error.res.statusText}` : "Request failed with unknown error";
-      throw new Error(message);
+      throw error instanceof APIError ? error : new APIError(error.message || `Unknown error`, error.response);
     });
   }
 };

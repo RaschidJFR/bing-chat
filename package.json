@@ -1,6 +1,6 @@
 {
   "name": "bing-chat",
-  "version": "0.3.0",
+  "version": "0.2.6",
   "description": "Node.js client for the unofficial Bing Chat API.",
   "author": "Travis Fischer <travis@transitivebullsh.it>",
   "contributors":["Raschid JF Rafaelly"],
